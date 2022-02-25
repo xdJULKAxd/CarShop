@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Car>
+
+<div class="container p-3">
+	<div class="row pt-4">
+		<div class="col-6">
+			<h2 class="text-primary">Car List</h2>
+		</div>
+		<div class="col-6 text-end">
+			<a asp-area="Admin" asp-controller="Car" asp-action="Upsert" class="btn btn-primary">
+				<i class="bi bi-plus-circle"></i> &nbsp; Create New Car
+			</a>
+		</div>
+	</div>
+
+	<br />
+	<br />
+	<div class="col-12">
+		<table id="tblData" class="table table-bordered table-striped" style="width:100%">
+			<thead>
+				<tr>
+					<th>Brand</th>
+					<th>Model</th>
+					<th>Price</th>
+					<th>Production Date</th>
+					<th>Registration Date</th>
+					<th>VIN</th>
+					<th>Registration</th>
+					<th></th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+</div>
+
+<script src="~/js/cars.js"></script>

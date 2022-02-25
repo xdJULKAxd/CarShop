@@ -1,0 +1,167 @@
+﻿@using CarShop.ViewModels
+@model CarVM
+
+@*enctype="multipart/form-data" *@
+<form method="post" enctype="multipart/form-data">
+
+    <input asp-for="Car.ImageUrl" hidden />
+    <div class="row">
+        <div class="col-10">
+            <div class="border p-3 mt-4 row">
+                <div class="row pb-2">
+                    <h2 class="text-primary">@(Model.Car.Id == 0 ? "Create" : "Update") Car</h2>
+                    <hr />
+                </div>
+                <input asp-for="Car.Id" hidden />
+                <div class="mb-3 col-6">
+                    <label>Brands</label>
+                    <select id="brandSelect" asp-items="@Model.BrandList" class="form-select" onchange="validate()">
+                        <option value="0" disabled selected>--Select Brand--</option>
+                    </select>
+                    <input id="hiddenBrandId" asp-for="Car.CarModel.BrandId" hidden />
+                </div>
+
+                <div class="mb-3 col-6">
+                    <label asp-for="Car.CarModelId"></label>
+                    <select id="modelSelect" asp-for="Car.CarModelId" class="form-select" onchange="setCarModelId()" disabled>
+                        <option value="0" disabled selected>--Select Model--</option>
+                    </select>
+                    <input id="hiddenCarModelId" asp-for="Car.CarModelId" hidden />
+                    <span asp-validation-for="Car.CarModelId" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3 col-6">
+                    <label asp-for="Car.ProductionDate"></label>
+                    <input asp-for="Car.ProductionDate" class="form-control" />
+                    <span asp-validation-for="Car.ProductionDate" class="text-danger"></span>
+                </div>
+                <div class="mb-3 col-6">
+                    <label asp-for="Car.RegistrationDate"></label>
+                    <input asp-for="Car.RegistrationDate" class="form-control" />
+                    <span asp-validation-for="Car.RegistrationDate" class="text-danger"></span>
+                </div>
+                <div class="mb-3 col-6">
+                    <label asp-for="Car.Registration"></label>
+                    <input asp-for="Car.Registration" class="form-control" />
+                    <span asp-validation-for="Car.Registration" class="text-danger"></span>
+                </div>
+                <div class="mb-3 col-6">
+                    <label asp-for="Car.Milage"></label>
+                    <input asp-for="Car.Milage" class="form-control" />
+                    <span asp-validation-for="Car.Milage" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Car.VIN"></label>
+                    <input asp-for="Car.VIN" class="form-control" />
+                    <span asp-validation-for="Car.VIN" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Car.ImageUrl"></label>
+                    <input type="file" id="uploadBox" name="file" class="form-control" />
+                </div>
+                <div class="mb-3 col-10">
+                    <label asp-for="Car.Price"></label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">$</span>
+                        <input id="priceText" type="text" class="form-control" onchange="onPriceChange()">
+                        <input id=price asp-for="Car.Price" hidden />
+                    </div>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary" style="width:150px">@(Model.Car.Id == 0 ? "Create" : "Update")</button>
+                    <a asp-controller="Car" asp-action="Index" class="btn btn-secondary" style="width:150px">Back to list</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-2 pt-4">
+            <img src="@Model.Car.ImageUrl" width="100%" style="border-radius:5px; border:1px solid #bbb9b9" />
+        </div>
+    </div>
+</form>
+
+@section Scripts{
+    @{
+    <partial name="_ValidationScriptsPartial" />
+    }
+}
+
+<script>
+    $(document).ready(() => {
+        loadPrice();
+        selectBrandAndModel();
+    });
+
+    const selectBrandAndModel = () => {
+        const carModelId = document.getElementById("hiddenCarModelId").value;
+        const brandId = document.getElementById("hiddenBrandId").value;
+        const brandSelect = document.getElementById("brandSelect");
+        const modelSelect = document.getElementById("modelSelect");
+
+        if(brandId !== null && brandId !== 0){
+            brandSelect.value = brandId;
+
+            $.ajax({
+                url: '/Admin/Car/GetAllCarModels',
+                method: 'GET',
+                success: (result) => {
+                    result.data.forEach((option) => {
+                        if(parseInt(option.brandId) === parseInt(brandSelect.value)) {
+                            const htmlOption = document.createElement("OPTION");
+                            htmlOption.innerHTML = option.name;
+                            htmlOption.value = option.id;
+                            modelSelect.options.add(htmlOption);
+                        }
+                    });
+
+                }
+            })
+            modelSelect.disabled = false;
+            modelSelect.value = carModelId;
+        }
+    }
+
+    const loadPrice = () => {
+        document.getElementById("priceText").value = document.getElementById("price").value;
+    }
+
+
+    const onPriceChange = () => {
+        const price = document.getElementById("priceText").value;
+        const regex = /\D/g;
+        document.getElementById("price").value = price.toLowerCase().replace(regex, '')
+    }
+
+    const validate = () => {
+        const brandSelect = document.getElementById("brandSelect");
+        const modelSelect = document.getElementById("modelSelect");
+        if (brandSelect.value !== 0) {
+            modelSelect.disabled = false;
+
+            $.ajax({
+                url: '/Admin/Car/GetAllCarModels',
+                method: 'GET',
+                success: (result) => {
+                    result.data.forEach((option) => {
+                        if(parseInt(option.brandId) === parseInt(brandSelect.value)) {
+                            const htmlOption = document.createElement("OPTION");
+                            htmlOption.innerHTML = option.name;
+                            htmlOption.value = option.id;
+                            modelSelect.options.add(htmlOption);
+                        }
+                    });
+
+                }
+            })
+        }
+        else {
+            modelSelect.disabled = true;
+        }
+    }
+
+    const setCarModelId = () => {
+        const hiddenId = document.getElementById("hiddenCarModelId");
+        const modelSelect = document.getElementById("modelSelect");
+
+        hiddenId.value = modelSelect.value;
+    }
+</script>

@@ -1,0 +1,39 @@
+﻿@using CarShop.Models.ViewModels
+@model CarModelVM
+
+<form method="post">
+	<input asp-for="CarModel.Id" hidden />
+	<div class="row">
+		<div class="col-10">
+			<div class="border p-3 mt-4 row">
+				<div class="row pb-2">
+					<h2 class="text-primary">@(Model.CarModel == null ? "Create" : "Update") Car Model</h2>
+					<hr />
+				</div>
+				<div class="mb-3">
+					<label asp-for="CarModel.Name"></label>
+					<input asp-for="CarModel.Name" class="form-control" />
+					<span asp-validation-for="CarModel.Name" class="text-danger"></span>
+				</div>
+
+				<div class="mb-3 col-6">
+					<label asp-for="CarModel.BrandId"></label>
+					<select asp-for="CarModel.BrandId" asp-items="@Model.BrandList" class="form-select">
+						<option disabled selected>--Select Brand--</option>
+					</select>
+					<span asp-validation-for="CarModel.BrandId" class="text-danger"></span>
+				</div>
+
+
+				<div class="col-12">
+					<button type="submit" class="btn btn-primary" style="width:150px">@(Model.CarModel.Id == 0 ? "Create" : "Update")</button>
+					<a asp-controller="CarModel" asp-action="Index" class="btn btn-secondary" style="width:150px">Back to list</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+@section Scripts{
+<partial name="_ValidationScriptsPartial" />
+}

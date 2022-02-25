@@ -1,0 +1,58 @@
+﻿@model Car
+
+<input hidden asp-for="Id" />
+<div class="card  container pt-4">
+	<div class="card-header bg-primary text-light ml-0  row ">
+		<div class="col-12 col-md-6">
+			<h1 class="text-white-50">@Model.CarModel.Brand.Name</h1>
+			<h2 class="text-warning">@Model.CarModel.Name</h2>
+		</div>
+	</div>
+	<div class="card-body row container">
+		<div class="container rounded p-2">
+			<div class="row">
+				<div class="col-8 col-lg-8">
+					<div class="row pl-2">
+						<label asp-for="ProductionDate"></label>
+						<h5>@Model.ProductionDate.ToString("yyyy-MM-dd")</h5>
+					</div>
+					<div class="row pl-2">
+						<label asp-for="RegistrationDate"></label>
+						<h5>@Model.RegistrationDate.ToString("yyyy-MM-dd")</h5>
+					</div>
+					<div class="row pl-2">
+						<label asp-for="Milage"></label>
+						<h5>@(Model.Milage) km</h5>
+					</div>
+					<div class="row pl-2">
+						<label asp-for="Registration"></label>
+						<h5>@Model.Registration</h5>
+					</div>
+					<div class="row pl-2">
+						<label asp-for="VIN"></label>
+						<h5>@Model.VIN</h5>
+					</div>
+					<div class="row pl-2 mt-2">
+						<label asp-for="Price"></label>
+						<h4>$@(Model.Price)</h4>
+					</div>
+				</div>
+				<div class="col-12 col-lg-3 offset-lg-1 text-center">
+					<img src="@Model.ImageUrl" width="100%" class="rounded" />
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<div class="card-footer">
+		<div class="row">
+			<div class="col-12 col-md-6 pb-1">
+				<a class="btn btn-outline-primary form-control " style="height:50px;" asp-action="Index">Back to Home</a>
+			</div>
+			<div class="col-12 col-md-6 pb-1">
+				<a type="submit" value="Buy now" class="btn btn-success form-control" style="height:50px;"
+				   asp-area="Customer" asp-controller="Order" asp-action="Upsert" asp-route-id="@Model.Id">Buy now</a>
+			</div>
+		</div>
+	</div>
+</div>

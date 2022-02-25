@@ -1,0 +1,95 @@
+﻿@model Order
+
+<form method="post">
+	<input asp-for="AppUserId" hidden />
+	<input asp-for="CarId" hidden />
+	<input asp-for="Price" hidden />
+	<div class="row">
+		<div class="col-10">
+			<div class="border p-3 mt-4 row">
+				<div class="row pb-2">
+					<h2 class="text-primary">@(Model.Id == 0 ? "Add" : "Update") an Order</h2>
+					<hr />
+				</div>
+				<div class="mb-3 col-12">
+					<h4>Client information</h4>
+				</div>
+				<div class="mb-3 col-12">
+					<label asp-for="AppUser.Name" disabled></label>
+					<input asp-for="AppUser.Name" class="form-control" />
+					<span asp-validation-for="AppUser.Name" class="text-danger"></span>
+				</div>
+				<div class="mb-3 col-6">
+					<label asp-for="Address"></label>
+					<input asp-for="Address" class="form-control" />
+					<span asp-validation-for="Address" class="text-danger"></span>
+				</div>
+				<div class="mb-3 col-6">
+					<label asp-for="PostCode"></label>
+					<input asp-for="PostCode" class="form-control" />
+					<span asp-validation-for="PostCode" class="text-danger"></span>
+				</div>
+				<div class="mb-3 col-6">
+					<label asp-for="City"></label>
+					<input asp-for="City" class="form-control" />
+					<span asp-validation-for="City" class="text-danger"></span>
+				</div>
+				<div class="mb-3 col-6">
+					<label asp-for="Country"></label>
+					<input asp-for="Country" class="form-control" />
+					<span asp-validation-for="Country" class="text-danger"></span>
+				</div>
+				<hr />
+
+				<div class="mb-3 col-12">
+					<h4>Car information</h4>
+				</div>
+				<div class="mb-3 col-6">
+					<label asp-for="Car.CarModel.Brand.Name"></label>
+					<input asp-for="Car.CarModel.Brand.Name" class="form-control" disabled />
+				</div>
+				<div class="mb-3 col-6">
+					<label asp-for="Car.CarModel.Name"></label>
+					<input asp-for="Car.CarModel.Name" class="form-control" disabled />
+				</div>
+				<div class="mb-3 col-6">
+					<label asp-for="Car.ProductionDate"></label>
+					<input asp-for="Car.ProductionDate" class="form-control" disabled />
+				</div>
+				<div class="mb-3 col-6">
+					<label asp-for="Car.RegistrationDate"></label>
+					<input asp-for="Car.RegistrationDate" class="form-control" disabled />
+				</div>
+				<div class="mb-3 col-6">
+					<label asp-for="Car.Registration"></label>
+					<input asp-for="Car.Registration" class="form-control" disabled />
+				</div>
+				<div class="mb-3 col-6">
+					<label asp-for="Car.Milage"></label>
+					<input asp-for="Car.Milage" class="form-control" disabled />
+				</div>
+				<div class="mb-3">
+					<label asp-for="Car.VIN"></label>
+					<input asp-for="Car.VIN" class="form-control" disabled />
+				</div>
+				<div class="mb-3 col-10">
+					<label asp-for="Price"></label>
+					<input asp-for="Price" class="form-control" disabled />
+				</div>
+				<div class="col-12">
+					<button type="submit" class="btn btn-primary" style="width:150px">Make an order</button>
+					<a asp-controller="Home" asp-action="Index" class="btn btn-secondary" style="width:150px">Back to home</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-2 pt-4">
+			<img src="@Model.Car.ImageUrl" width="100%" style="border-radius:5px; border:1px solid #bbb9b9" />
+		</div>
+	</div>
+</form>
+
+@section Scripts{
+    @{
+	<partial name="_ValidationScriptsPartial" />
+    }
+}

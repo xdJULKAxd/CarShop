@@ -1,0 +1,31 @@
+﻿@model Order
+
+<div class="row">
+	<div class="col-10">
+		<div class="border p-3 mt-4 row">
+			<div class="row pb-2">
+				<h2 class="text-primary">Your order number @(Model.Id) has been added!</h2>
+				<hr />
+			</div>
+			<div class="mb-3 col-12">
+				<h4>Please pay your order by the bank transfer for the following data</h4>
+			</div>
+			<div class="mb-3 col-12">
+				<label>Name of the bank</label>
+				<p>PKO BP</p>
+			</div>
+			<div class="mb-3 col-12">
+				<label>Bank account number</label>
+				<p>0000 0000 0000 0000 0000</p>
+			</div>
+			<div class="mb-3 col-12">
+				<label>Transfer title</label>
+				<p>Payment for the order @(Model.Id)</p>
+			</div>
+			<hr />
+			<div class="col-12">
+				<a asp-controller="Home" asp-action="Index" class="btn btn-secondary" style="width:150px">Back to home</a>
+			</div>
+		</div>
+	</div>
+</div>

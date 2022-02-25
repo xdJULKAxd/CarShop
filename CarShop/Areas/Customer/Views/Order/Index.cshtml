@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Order>
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Orders List</h2>
+        </div>
+    </div>
+
+    <br />
+    <br />
+    <div class="col-12">
+        <table id="tblData" class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Creation Date</th>
+                    <th>User</th>
+                    <th>Car Brand</th>
+                    <th>Car Model</th>
+                    <th>Price</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var obj in Model)
+                {
+                    <tr>
+                        <td width="15%">@obj.CreationDate.ToString("yyyy-MM-dd")</td>
+                        <td width="15%">@obj.AppUser.Name</td>
+                        <td width="15%">@obj.Car.CarModel.Brand.Name</td>
+                        <td width="15%">@obj.Car.CarModel.Name</td>
+                        <td width="15%">$@obj.Price</td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <a asp-area="Customer" asp-controller="Order" asp-action="Upsert" asp-route-id="@obj.Id"
+                               class="btn btn-primary mx-1"><i class="bi bi-pencil-square"></i>Edit</a>
+                                <a onClick="Delete('/Admin/Brand/Delete/@obj.Id')"
+                               class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="~/js/dataAccess.js"></script>
